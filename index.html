@@ -117,7 +117,10 @@ For now, it provides a reference documentation of all the configuration options 
 </div>
 <div class="section" id="config">
 <h1>Config<a class="headerlink" href="#config" title="Permalink to this headline">¶</a></h1>
-<p>This is an example of a basic configuration for the framework.</p>
+<p>This is an example of a basic configuration for the framework.
+This experiment consists of an FL setup with 3383 clients for the Federated-MNIST task.
+The experiment runs for 80 rounds and in each round, 30 clients are selected
+The clients train for two epochs and the updates are constrained to have an L2-norm bound of 10.</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">environment</span><span class="p">:</span>
    <span class="nt">num_clients</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">3383</span>
    <span class="nt">num_selected_clients</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">30</span>
