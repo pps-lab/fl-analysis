@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+      <title>Framework Configuration</title>
+    
+          <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+          <link rel="stylesheet" href="_static/theme.css " type="text/css" />
+      
+      <!-- sphinx script_files -->
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+
+      
+      <!-- bundled in js (rollup iife) -->
+      <!-- <script src="_static/theme-vendors.js"></script> -->
+      <script src="_static/theme.js" defer></script>
+    
+  <link rel="index" title="Index" href="genindex.html" />
+  <link rel="search" title="Search" href="search.html" />
+  <link rel="prev" title="Federated Learning with Adversaries" href="index.html" /> 
+  </head>
+
+  <body>
+    <div id="app">
+    <div class="theme-container" :class="pageClasses"><navbar @toggle-sidebar="toggleSidebar">
+  <router-link to="index.html" class="home-link">
+    
+      <span class="site-name">Adversarial FL</span>
+    
+  </router-link>
+
+  <div class="links">
+    <navlinks class="can-hide">
+
+
+
+    </navlinks>
+  </div>
+</navbar>
+
+      
+      <div class="sidebar-mask" @click="toggleSidebar(false)">
+      </div>
+        <sidebar @toggle-sidebar="toggleSidebar">
+          
+          <navlinks>
+            
+
+
+
+            
+          </navlinks><div id="searchbox" class="searchbox" role="search">
+  <div class="caption"><span class="caption-text">Quick search</span>
+    <div class="searchformwrapper">
+      <form class="search" action="search.html" method="get">
+        <input type="text" name="q" />
+        <input type="submit" value="Search" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div><div class="sidebar-links" role="navigation" aria-label="main navigation">
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="index.html#federated-learning-with-adversaries">federated learning with adversaries</a></span>
+      </p>
+      <ul class="current">
+        
+          <li class="toctree-l1 current"><a href="#" class="reference internal current">Framework Configuration</a>
+
+            
+              <ul>
+                
+                  <li class="toctree-l2"><a href="#framework-configuration" class="reference internal">Framework Configuration</a></li>
+                
+              </ul>
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+</div>
+        </sidebar>
+
+      <page>
+          <div class="body-header" role="navigation" aria-label="navigation">
+  
+  <ul class="breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+    
+    <li>Framework Configuration</li>
+  </ul>
+  
+
+  <ul class="page-nav">
+  <li class="prev">
+    <a href="index.html"
+       title="previous chapter">← Federated Learning with Adversaries</a>
+  </li>
+</ul>
+  
+</div>
+<hr>
+          <div class="content" role="main" v-pre>
+            
+  <div class="section" id="framework-configuration">
+<span id="full-configuration"></span><h1>Framework Configuration<a class="headerlink" href="#framework-configuration" title="Permalink to this headline">¶</a></h1>
+<p>To use the framework, a config must be specified in YAML format.
+A full specification of all the options is defined below.
+The configuration file consists of several config <cite>sections</cite>, some of which must be specified.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="src.config.definitions.Config">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">src.config.definitions.</span></span><span class="sig-name descname"><span class="pre">Config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">environment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hyperparameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.config.definitions.Config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Config root that defines the sections that can/must be specified.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.Config.client">
+<span class="sig-name descname"><span class="pre">client</span></span><em class="property"><span class="pre">:</span> <a class="reference internal" href="#src.config.definitions.ClientConfig" title="src.config.definitions.ClientConfig"><span class="pre">src.config.definitions.ClientConfig</span></a></em><em class="property"> <span class="pre">=</span> <span class="pre">&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#src.config.definitions.Config.client" title="Permalink to this definition">¶</a></dt>
+<dd><p>Client configuration.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.Config.dataset">
+<span class="sig-name descname"><span class="pre">dataset</span></span><em class="property"><span class="pre">:</span> <a class="reference internal" href="#src.config.definitions.Dataset" title="src.config.definitions.Dataset"><span class="pre">src.config.definitions.Dataset</span></a></em><em class="property"> <span class="pre">=</span> <span class="pre">&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#src.config.definitions.Config.dataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dataset configuration.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.Config.environment">
+<span class="sig-name descname"><span class="pre">environment</span></span><em class="property"><span class="pre">:</span> <a class="reference internal" href="#src.config.definitions.Environment" title="src.config.definitions.Environment"><span class="pre">src.config.definitions.Environment</span></a></em><em class="property"> <span class="pre">=</span> <span class="pre">&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#src.config.definitions.Config.environment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Details about the FL environment of the experiment</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.Config.hyperparameters">
+<span class="sig-name descname"><span class="pre">hyperparameters</span></span><em class="property"><span class="pre">:</span> <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#src.config.definitions.HyperparameterConfig" title="src.config.definitions.HyperparameterConfig"><span class="pre">src.config.definitions.HyperparameterConfig</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#src.config.definitions.Config.hyperparameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hyperparameters that are used this run. This is a free-format section and can be used to log hyperparameters 
+in the tfevents format to later analyze using Tensorboard.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.Config.server">
+<span class="sig-name descname"><span class="pre">server</span></span><em class="property"><span class="pre">:</span> <a class="reference internal" href="#src.config.definitions.Server" title="src.config.definitions.Server"><span class="pre">src.config.definitions.Server</span></a></em><em class="property"> <span class="pre">=</span> <span class="pre">&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#src.config.definitions.Config.server" title="Permalink to this definition">¶</a></dt>
+<dd><p>Server configuration.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="src.config.definitions.ClientConfig">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">src.config.definitions.</span></span><span class="sig-name descname"><span class="pre">ClientConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">benign_training</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quantization</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">malicious</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimized_training</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gaussian_noise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_weight_regularization</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.config.definitions.ClientConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines the behavior of the clients.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.ClientConfig.benign_training">
+<span class="sig-name descname"><span class="pre">benign_training</span></span><em class="property"><span class="pre">:</span> <a class="reference internal" href="#src.config.definitions.TrainingConfig" title="src.config.definitions.TrainingConfig"><span class="pre">src.config.definitions.TrainingConfig</span></a></em><em class="property"> <span class="pre">=</span> <span class="pre">&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#src.config.definitions.ClientConfig.benign_training" title="Permalink to this definition">¶</a></dt>
+<dd><p>Training config of the clients</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.ClientConfig.clip">
+<span class="sig-name descname"><span class="pre">clip</span></span><em class="property"><span class="pre">:</span> <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#src.config.definitions.NormBound" title="src.config.definitions.NormBound"><span class="pre">src.config.definitions.NormBound</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#src.config.definitions.ClientConfig.clip" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply a norm bound to the client updates</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.ClientConfig.gaussian_noise">
+<span class="sig-name descname"><span class="pre">gaussian_noise</span></span><em class="property"><span class="pre">:</span> <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#src.config.definitions.ClientConfig.gaussian_noise" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sigma of 0-centered gaussian noise to apply to the training samples</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.ClientConfig.malicious">
+<span class="sig-name descname"><span class="pre">malicious</span></span><em class="property"><span class="pre">:</span> <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#src.config.definitions.MaliciousConfig" title="src.config.definitions.MaliciousConfig"><span class="pre">src.config.definitions.MaliciousConfig</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#src.config.definitions.ClientConfig.malicious" title="Permalink to this definition">¶</a></dt>
+<dd><p>Optional configuration for the malicious clients</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.ClientConfig.model_name">
+<span class="sig-name descname"><span class="pre">model_name</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><em class="property"> <span class="pre">=</span> <span class="pre">&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#src.config.definitions.ClientConfig.model_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>What model to use. Note: Not all model / dataset combinations are supported. Supported models:
+<cite>dev</cite>, <cite>mnist_cnn</cite>, <cite>bhagoji</cite>, <cite>resnet18</cite>, <cite>resnet32</cite>, <cite>resnet44</cite>, <cite>resnet56</cite>, <cite>resnet110</cite>, <cite>resnet18_v2</cite>,
+<cite>resnet56_v2</cite>, <cite>dev_intrinsic</cite>, <cite>dev_fc_intrinsic</cite>, <cite>bhagoji_intrinsic</cite>, <cite>mnistcnn_intrinsic</cite>, <cite>lenet5_mnist</cite>,
+<cite>lenet5_cifar</cite>, <cite>lenet5_intrinsic</cite>, <cite>allcnn</cite>, <cite>allcnn_intrinsic</cite></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.ClientConfig.model_weight_regularization">
+<span class="sig-name descname"><span class="pre">model_weight_regularization</span></span><em class="property"><span class="pre">:</span> <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#src.config.definitions.ClientConfig.model_weight_regularization" title="Permalink to this definition">¶</a></dt>
+<dd><p>Weight regularization of the model (l2)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.ClientConfig.optimized_training">
+<span class="sig-name descname"><span class="pre">optimized_training</span></span><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><em class="property"> <span class="pre">=</span> <span class="pre">True</span></em><a class="headerlink" href="#src.config.definitions.ClientConfig.optimized_training" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether to use optimized Tensorflow training. This should work by default, but when a large amount of clients
+(&gt; 5000) is used with limited GPU memory, the training process may run out of memory after training for some time.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.ClientConfig.quantization">
+<span class="sig-name descname"><span class="pre">quantization</span></span><em class="property"><span class="pre">:</span> <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#src.config.definitions.Quantization" title="src.config.definitions.Quantization"><span class="pre">src.config.definitions.Quantization</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#src.config.definitions.ClientConfig.quantization" title="Permalink to this definition">¶</a></dt>
+<dd><p>Optional probabilistic quantization configuration</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="src.config.definitions.TrainingConfig">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">src.config.definitions.</span></span><span class="sig-name descname"><span class="pre">TrainingConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_epochs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learning_rate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimizer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Adam'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">regularization_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.config.definitions.TrainingConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Client training configuration</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.TrainingConfig.batch_size">
+<span class="sig-name descname"><span class="pre">batch_size</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><em class="property"> <span class="pre">=</span> <span class="pre">&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#src.config.definitions.TrainingConfig.batch_size" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.TrainingConfig.decay">
+<span class="sig-name descname"><span class="pre">decay</span></span><em class="property"><span class="pre">:</span> <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#src.config.definitions.LearningDecay" title="src.config.definitions.LearningDecay"><span class="pre">src.config.definitions.LearningDecay</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#src.config.definitions.TrainingConfig.decay" title="Permalink to this definition">¶</a></dt>
+<dd><p>Optional learning rate decay schedule</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.TrainingConfig.learning_rate">
+<span class="sig-name descname"><span class="pre">learning_rate</span></span><em class="property"><span class="pre">:</span> <span class="pre">float</span></em><em class="property"> <span class="pre">=</span> <span class="pre">&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#src.config.definitions.TrainingConfig.learning_rate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.TrainingConfig.num_epochs">
+<span class="sig-name descname"><span class="pre">num_epochs</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><em class="property"> <span class="pre">=</span> <span class="pre">&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#src.config.definitions.TrainingConfig.num_epochs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of training epochs</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.TrainingConfig.optimizer">
+<span class="sig-name descname"><span class="pre">optimizer</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><em class="property"> <span class="pre">=</span> <span class="pre">'Adam'</span></em><a class="headerlink" href="#src.config.definitions.TrainingConfig.optimizer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Optimizer to use</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.TrainingConfig.regularization_rate">
+<span class="sig-name descname"><span class="pre">regularization_rate</span></span><em class="property"><span class="pre">:</span> <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#src.config.definitions.TrainingConfig.regularization_rate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use L2 regularization to limit the size of the model <cite>update</cite> (not the model itself).</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="src.config.definitions.LearningDecay">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">src.config.definitions.</span></span><span class="sig-name descname"><span class="pre">LearningDecay</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decay_steps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decay_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decay_boundaries</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decay_values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.config.definitions.LearningDecay" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines a learning rate decay schedule</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.LearningDecay.decay_boundaries">
+<span class="sig-name descname"><span class="pre">decay_boundaries</span></span><em class="property"><span class="pre">:</span> <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#src.config.definitions.LearningDecay.decay_boundaries" title="Permalink to this definition">¶</a></dt>
+<dd><p>The list of decay boundaries (requires <cite>boundaries</cite> type).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.LearningDecay.decay_rate">
+<span class="sig-name descname"><span class="pre">decay_rate</span></span><em class="property"><span class="pre">:</span> <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#src.config.definitions.LearningDecay.decay_rate" title="Permalink to this definition">¶</a></dt>
+<dd><p>The rate at which the learning rate decays (requires <cite>exponential</cite> type).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.LearningDecay.decay_steps">
+<span class="sig-name descname"><span class="pre">decay_steps</span></span><em class="property"><span class="pre">:</span> <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#src.config.definitions.LearningDecay.decay_steps" title="Permalink to this definition">¶</a></dt>
+<dd><p>The number of steps after which the learning rate decays each time (requires <cite>exponential</cite> type).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.LearningDecay.decay_values">
+<span class="sig-name descname"><span class="pre">decay_values</span></span><em class="property"><span class="pre">:</span> <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#src.config.definitions.LearningDecay.decay_values" title="Permalink to this definition">¶</a></dt>
+<dd><p>The list of decay multiples corresponding to the areas defined by the boundaries (requires <cite>boundaries</cite> type).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.LearningDecay.type">
+<span class="sig-name descname"><span class="pre">type</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><em class="property"> <span class="pre">=</span> <span class="pre">&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#src.config.definitions.LearningDecay.type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Type of learning rate decay. Supported: <cite>exponential</cite> for exponential decay and <cite>boundaries</cite> for 
+decay at arbitrary step boundaries.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="src.config.definitions.MaliciousConfig">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">src.config.definitions.</span></span><span class="sig-name descname"><span class="pre">MaliciousConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">objective</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evasion</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backdoor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attack_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">estimate_other_updates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attack_start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attack_stop</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10000000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multi_attacker_scale_divide</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.config.definitions.MaliciousConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Malicious training configuration. A malicious training configuration is largely defined by an attack objective
+(targeted or untargeted), an evasion method (to evade a potential defense such as a norm bound) and a backdoor
+that defines the specific set of samples to poison.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.MaliciousConfig.attack_start">
+<span class="sig-name descname"><span class="pre">attack_start</span></span><em class="property"><span class="pre">:</span> <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">=</span> <span class="pre">0</span></em><a class="headerlink" href="#src.config.definitions.MaliciousConfig.attack_start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Round after which to start attacking</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.MaliciousConfig.attack_stop">
+<span class="sig-name descname"><span class="pre">attack_stop</span></span><em class="property"><span class="pre">:</span> <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">=</span> <span class="pre">10000000</span></em><a class="headerlink" href="#src.config.definitions.MaliciousConfig.attack_stop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Round after which to stop attacking</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.MaliciousConfig.attack_type">
+<span class="sig-name descname"><span class="pre">attack_type</span></span><em class="property"><span class="pre">:</span> <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#src.config.definitions.MaliciousConfig.attack_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Legacy option, <cite>targeted</cite> or <cite>untargeted</cite></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.MaliciousConfig.backdoor">
+<span class="sig-name descname"><span class="pre">backdoor</span></span><em class="property"><span class="pre">:</span> <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#src.config.definitions.MaliciousConfig.backdoor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Backdoor type. Supports several kinds of backdoors, see the examples for more details. Support types: <cite>tasks</cite>
+(select a set handwriters to poison), <cite>edge_case</cite> (select a set of external, edge-case samples), 
+<cite>semantic</cite> (define specific samples by id to poison)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.MaliciousConfig.estimate_other_updates">
+<span class="sig-name descname"><span class="pre">estimate_other_updates</span></span><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><em class="property"> <span class="pre">=</span> <span class="pre">False</span></em><a class="headerlink" href="#src.config.definitions.MaliciousConfig.estimate_other_updates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimate the update that the clients will send based on the difference of the global model with 
+the previous round, based on an idea proposed by Bhagoji et al.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.MaliciousConfig.evasion">
+<span class="sig-name descname"><span class="pre">evasion</span></span><em class="property"><span class="pre">:</span> <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#src.config.definitions.MaliciousConfig.evasion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evasion method. Supported: <cite>NormBoundPGDEvasion</cite> or <cite>TrimmedMeanEvasion</cite></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.MaliciousConfig.multi_attacker_scale_divide">
+<span class="sig-name descname"><span class="pre">multi_attacker_scale_divide</span></span><em class="property"><span class="pre">:</span> <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#src.config.definitions.MaliciousConfig.multi_attacker_scale_divide" title="Permalink to this definition">¶</a></dt>
+<dd><p>When multiple attackers are selected in a single round, one attacker computes an update that all 
+selected attackers then submit to the server. This can be useful to improve norm bound evasion.
+The default behavior (when this flag is <cite>false</cite> or unspecified) is that all
+attackers compute an update independently.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.MaliciousConfig.objective">
+<span class="sig-name descname"><span class="pre">objective</span></span><em class="property"><span class="pre">:</span> <span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">=</span> <span class="pre">&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#src.config.definitions.MaliciousConfig.objective" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attack objective. Corresponds with attack classes. Supported: <cite>TargetedAttack</cite>, <cite>UntargetedAttack</cite>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="src.config.definitions.NormBound">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">src.config.definitions.</span></span><span class="sig-name descname"><span class="pre">NormBound</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">probability</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.config.definitions.NormBound" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enforce a norm bound</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.NormBound.probability">
+<span class="sig-name descname"><span class="pre">probability</span></span><em class="property"><span class="pre">:</span> <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#src.config.definitions.NormBound.probability" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<cite>linf</cite>) Legacy option to support clipping of randomly selected parameters</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.NormBound.type">
+<span class="sig-name descname"><span class="pre">type</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><em class="property"> <span class="pre">=</span> <span class="pre">&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#src.config.definitions.NormBound.type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Type of norm bound. Supported: <cite>l2</cite>, <cite>linf</cite>, <cite>median_l2</cite></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.NormBound.value">
+<span class="sig-name descname"><span class="pre">value</span></span><em class="property"><span class="pre">:</span> <span class="pre">float</span></em><em class="property"> <span class="pre">=</span> <span class="pre">&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#src.config.definitions.NormBound.value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Norm bound value</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="src.config.definitions.Quantization">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">src.config.definitions.</span></span><span class="sig-name descname"><span class="pre">Quantization</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frac</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.config.definitions.Quantization" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Apply quantization to the client updates, to simulate conversion to fixed-point representation in the crypto domain</dt><dd><p>(secure aggregation).</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.Quantization.bits">
+<span class="sig-name descname"><span class="pre">bits</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><em class="property"> <span class="pre">=</span> <span class="pre">&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#src.config.definitions.Quantization.bits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of total bits per parameter to quantize to.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.Quantization.frac">
+<span class="sig-name descname"><span class="pre">frac</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><em class="property"> <span class="pre">=</span> <span class="pre">&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#src.config.definitions.Quantization.frac" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of bits to use for the fractional part of the number.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.Quantization.type">
+<span class="sig-name descname"><span class="pre">type</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><em class="property"> <span class="pre">=</span> <span class="pre">&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#src.config.definitions.Quantization.type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Type of quantization to be used. Either <cite>probabilistic</cite> or <cite>deterministic</cite>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="src.config.definitions.Server">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">src.config.definitions.</span></span><span class="sig-name descname"><span class="pre">Server</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_rounds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_test_batches</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">federated_dropout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aggregator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">global_learning_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intrinsic_dimension</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gaussian_noise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.config.definitions.Server" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines server behavior.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.Server.aggregator">
+<span class="sig-name descname"><span class="pre">aggregator</span></span><em class="property"><span class="pre">:</span> <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#src.config.definitions.Server.aggregator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Aggregator to use. Default is FedAvg.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.Server.federated_dropout">
+<span class="sig-name descname"><span class="pre">federated_dropout</span></span><em class="property"><span class="pre">:</span> <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#src.config.definitions.FederatedDropout" title="src.config.definitions.FederatedDropout"><span class="pre">src.config.definitions.FederatedDropout</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#src.config.definitions.Server.federated_dropout" title="Permalink to this definition">¶</a></dt>
+<dd><p>Federated dropout configuration</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.Server.gaussian_noise">
+<span class="sig-name descname"><span class="pre">gaussian_noise</span></span><em class="property"><span class="pre">:</span> <span class="pre">float</span></em><em class="property"> <span class="pre">=</span> <span class="pre">0.0</span></em><a class="headerlink" href="#src.config.definitions.Server.gaussian_noise" title="Permalink to this definition">¶</a></dt>
+<dd><p>Amount (sigma) of centered around 0 Gaussian noise to add to the model update each round.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.Server.global_learning_rate">
+<span class="sig-name descname"><span class="pre">global_learning_rate</span></span><em class="property"><span class="pre">:</span> <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#src.config.definitions.Server.global_learning_rate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Global learning rate</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.Server.intrinsic_dimension">
+<span class="sig-name descname"><span class="pre">intrinsic_dimension</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><em class="property"> <span class="pre">=</span> <span class="pre">1000</span></em><a class="headerlink" href="#src.config.definitions.Server.intrinsic_dimension" title="Permalink to this definition">¶</a></dt>
+<dd><p>For subspace learning, the size of the intrinsic dimension.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.Server.num_rounds">
+<span class="sig-name descname"><span class="pre">num_rounds</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><em class="property"> <span class="pre">=</span> <span class="pre">&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#src.config.definitions.Server.num_rounds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of training rounds</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.Server.num_test_batches">
+<span class="sig-name descname"><span class="pre">num_test_batches</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><em class="property"> <span class="pre">=</span> <span class="pre">&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#src.config.definitions.Server.num_test_batches" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of batches to evaluate on in each evaluation</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="src.config.definitions.FederatedDropout">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">src.config.definitions.</span></span><span class="sig-name descname"><span class="pre">FederatedDropout</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nonoverlap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">randommask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.config.definitions.FederatedDropout" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines federated dropout behavior.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.FederatedDropout.all_parameters">
+<span class="sig-name descname"><span class="pre">all_parameters</span></span><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><em class="property"> <span class="pre">=</span> <span class="pre">True</span></em><a class="headerlink" href="#src.config.definitions.FederatedDropout.all_parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>If set to True, applies dropout on all parameters randomly according to the dropout rate.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.FederatedDropout.nonoverlap">
+<span class="sig-name descname"><span class="pre">nonoverlap</span></span><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><em class="property"> <span class="pre">=</span> <span class="pre">False</span></em><a class="headerlink" href="#src.config.definitions.FederatedDropout.nonoverlap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Each client receives a unique mask that is not overlapped with other clients’ masks.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.FederatedDropout.randommask">
+<span class="sig-name descname"><span class="pre">randommask</span></span><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><em class="property"> <span class="pre">=</span> <span class="pre">False</span></em><a class="headerlink" href="#src.config.definitions.FederatedDropout.randommask" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enable low rank mode instead of federated dropout, i.e. only mask the uplink.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.FederatedDropout.rate">
+<span class="sig-name descname"><span class="pre">rate</span></span><em class="property"><span class="pre">:</span> <span class="pre">float</span></em><em class="property"> <span class="pre">=</span> <span class="pre">1.0</span></em><a class="headerlink" href="#src.config.definitions.FederatedDropout.rate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dropout rate. Keep <cite>rate</cite> percentage of parameters</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="src.config.definitions.Dataset">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">src.config.definitions.</span></span><span class="sig-name descname"><span class="pre">Dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_distribution</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">augment_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize_mnist_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.config.definitions.Dataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines the dataset to use.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.Dataset.augment_data">
+<span class="sig-name descname"><span class="pre">augment_data</span></span><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><em class="property"> <span class="pre">=</span> <span class="pre">False</span></em><a class="headerlink" href="#src.config.definitions.Dataset.augment_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether to augment the data with random horizontal flips and horizontal/vertical shifts. Used for CIFAR-10.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.Dataset.data_distribution">
+<span class="sig-name descname"><span class="pre">data_distribution</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><em class="property"> <span class="pre">=</span> <span class="pre">&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#src.config.definitions.Dataset.data_distribution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Data distribution over the clients. specify <cite>IID</cite> for I.I.D. distribution, <cite>NONIID</cite> otherwise.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.Dataset.dataset">
+<span class="sig-name descname"><span class="pre">dataset</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><em class="property"> <span class="pre">=</span> <span class="pre">&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#src.config.definitions.Dataset.dataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dataset type. Supported: <cite>mnist</cite>, <cite>femnist</cite>, <cite>cifar10</cite></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.Dataset.normalize_mnist_data">
+<span class="sig-name descname"><span class="pre">normalize_mnist_data</span></span><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><em class="property"> <span class="pre">=</span> <span class="pre">False</span></em><a class="headerlink" href="#src.config.definitions.Dataset.normalize_mnist_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Legacy flag, whether to normalize the MNIST dataset</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.Dataset.number_of_samples">
+<span class="sig-name descname"><span class="pre">number_of_samples</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><em class="property"> <span class="pre">=</span> <span class="pre">-1</span></em><a class="headerlink" href="#src.config.definitions.Dataset.number_of_samples" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of samples to use in the dataset. -1 means all samples</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="src.config.definitions.Environment">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">src.config.definitions.</span></span><span class="sig-name descname"><span class="pre">Environment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">num_clients</span></em>, <em class="sig-param"><span class="pre">num_selected_clients</span></em>, <em class="sig-param"><span class="pre">num_malicious_clients</span></em>, <em class="sig-param"><span class="pre">experiment_name</span></em>, <em class="sig-param"><span class="pre">num_selected_malicious_clients=None</span></em>, <em class="sig-param"><span class="pre">malicious_client_indices=None</span></em>, <em class="sig-param"><span class="pre">attack_frequency=None</span></em>, <em class="sig-param"><span class="pre">attacker_full_dataset=False</span></em>, <em class="sig-param"><span class="pre">attacker_full_knowledge=False</span></em>, <em class="sig-param"><span class="pre">load_model=None</span></em>, <em class="sig-param"><span class="pre">ignore_malicious_update=False</span></em>, <em class="sig-param"><span class="pre">print_every=1</span></em>, <em class="sig-param"><span class="pre">save_updates=False</span></em>, <em class="sig-param"><span class="pre">save_norms=False</span></em>, <em class="sig-param"><span class="pre">save_weight_distributions=False</span></em>, <em class="sig-param"><span class="pre">save_history=False</span></em>, <em class="sig-param"><span class="pre">save_model_at=&lt;factory&gt;</span></em>, <em class="sig-param"><span class="pre">save_weight_outside_bound=None</span></em>, <em class="sig-param"><span class="pre">print_backdoor_eval=False</span></em>, <em class="sig-param"><span class="pre">seed=0</span></em>, <em class="sig-param"><span class="pre">use_config_dir=False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.config.definitions.Environment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines the environment of the experiment.
+In addition, this config section has additional settings for logging different statistics by the framework.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.Environment.attack_frequency">
+<span class="sig-name descname"><span class="pre">attack_frequency</span></span><em class="property"><span class="pre">:</span> <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#src.config.definitions.Environment.attack_frequency" title="Permalink to this definition">¶</a></dt>
+<dd><p>Frequency of malicious parties being selected. Default is None, for random selection</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.Environment.attacker_full_dataset">
+<span class="sig-name descname"><span class="pre">attacker_full_dataset</span></span><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><em class="property"> <span class="pre">=</span> <span class="pre">False</span></em><a class="headerlink" href="#src.config.definitions.Environment.attacker_full_dataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether the attacker has the full dataset.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.Environment.attacker_full_knowledge">
+<span class="sig-name descname"><span class="pre">attacker_full_knowledge</span></span><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><em class="property"> <span class="pre">=</span> <span class="pre">False</span></em><a class="headerlink" href="#src.config.definitions.Environment.attacker_full_knowledge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether the attacker has full knowledge of the other client updates in a given round.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.Environment.experiment_name">
+<span class="sig-name descname"><span class="pre">experiment_name</span></span><em class="property"><span class="pre">:</span> <span class="pre">str</span></em><em class="property"> <span class="pre">=</span> <span class="pre">&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#src.config.definitions.Environment.experiment_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Name of the experiment (used to create the logging directory)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.Environment.ignore_malicious_update">
+<span class="sig-name descname"><span class="pre">ignore_malicious_update</span></span><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><em class="property"> <span class="pre">=</span> <span class="pre">False</span></em><a class="headerlink" href="#src.config.definitions.Environment.ignore_malicious_update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute a malicious update, but ignore the update in aggregation.
+Can be used to compute malicious client update statistics over time without compromising the model.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.Environment.load_model">
+<span class="sig-name descname"><span class="pre">load_model</span></span><em class="property"><span class="pre">:</span> <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#src.config.definitions.Environment.load_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load a model to be used in training instead of a randomly initialized model.
+Can be used to load pre-trained models.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.Environment.malicious_client_indices">
+<span class="sig-name descname"><span class="pre">malicious_client_indices</span></span><em class="property"><span class="pre">:</span> <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#src.config.definitions.Environment.malicious_client_indices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Select a specific set of clients to be malicious, based on client index</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.Environment.num_clients">
+<span class="sig-name descname"><span class="pre">num_clients</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><em class="property"> <span class="pre">=</span> <span class="pre">&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#src.config.definitions.Environment.num_clients" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of clients</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.Environment.num_malicious_clients">
+<span class="sig-name descname"><span class="pre">num_malicious_clients</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><em class="property"> <span class="pre">=</span> <span class="pre">&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#src.config.definitions.Environment.num_malicious_clients" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of malicious clients in total</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.Environment.num_selected_clients">
+<span class="sig-name descname"><span class="pre">num_selected_clients</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><em class="property"> <span class="pre">=</span> <span class="pre">&lt;dataclasses._MISSING_TYPE</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#src.config.definitions.Environment.num_selected_clients" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of clients selected in each round</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.Environment.num_selected_malicious_clients">
+<span class="sig-name descname"><span class="pre">num_selected_malicious_clients</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#src.config.definitions.Environment.num_selected_malicious_clients" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of malicious clients selected in each round</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.Environment.print_backdoor_eval">
+<span class="sig-name descname"><span class="pre">print_backdoor_eval</span></span><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><em class="property"> <span class="pre">=</span> <span class="pre">False</span></em><a class="headerlink" href="#src.config.definitions.Environment.print_backdoor_eval" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether to log the raw backdoor predictions of the model (at evaluation time)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.Environment.print_every">
+<span class="sig-name descname"><span class="pre">print_every</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#src.config.definitions.Environment.print_every" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines after how many rounds should the framework evaluate the accuracy of the model.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.Environment.save_history">
+<span class="sig-name descname"><span class="pre">save_history</span></span><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><em class="property"> <span class="pre">=</span> <span class="pre">False</span></em><a class="headerlink" href="#src.config.definitions.Environment.save_history" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save the history of the global models on the server.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.Environment.save_model_at">
+<span class="sig-name descname"><span class="pre">save_model_at</span></span><em class="property"><span class="pre">:</span> <span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#src.config.definitions.Environment.save_model_at" title="Permalink to this definition">¶</a></dt>
+<dd><p>Framework saves the global model to a file at these rounds.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.Environment.save_norms">
+<span class="sig-name descname"><span class="pre">save_norms</span></span><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><em class="property"> <span class="pre">=</span> <span class="pre">False</span></em><a class="headerlink" href="#src.config.definitions.Environment.save_norms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log the norms of the client updates to a file.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.Environment.save_updates">
+<span class="sig-name descname"><span class="pre">save_updates</span></span><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><em class="property"> <span class="pre">=</span> <span class="pre">False</span></em><a class="headerlink" href="#src.config.definitions.Environment.save_updates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save all client updates in each round (Note: Quickly takes up a significant amount of storage space).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.Environment.save_weight_distributions">
+<span class="sig-name descname"><span class="pre">save_weight_distributions</span></span><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><em class="property"> <span class="pre">=</span> <span class="pre">False</span></em><a class="headerlink" href="#src.config.definitions.Environment.save_weight_distributions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save the weight update distributions to tfevents files.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.Environment.save_weight_outside_bound">
+<span class="sig-name descname"><span class="pre">save_weight_outside_bound</span></span><em class="property"><span class="pre">:</span> <span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">=</span> <span class="pre">None</span></em><a class="headerlink" href="#src.config.definitions.Environment.save_weight_outside_bound" title="Permalink to this definition">¶</a></dt>
+<dd><p>Keep track of how many weights are outside the given l_inf bound.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.Environment.seed">
+<span class="sig-name descname"><span class="pre">seed</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><em class="property"> <span class="pre">=</span> <span class="pre">0</span></em><a class="headerlink" href="#src.config.definitions.Environment.seed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Randomness seed</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.Environment.use_config_dir">
+<span class="sig-name descname"><span class="pre">use_config_dir</span></span><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><em class="property"> <span class="pre">=</span> <span class="pre">False</span></em><a class="headerlink" href="#src.config.definitions.Environment.use_config_dir" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether to create a separate experiments output directory. 
+If <cite>False</cite> (default), the directory of the config YAML file is used as output directory.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="src.config.definitions.HyperparameterConfig">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">src.config.definitions.</span></span><span class="sig-name descname"><span class="pre">HyperparameterConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.config.definitions.HyperparameterConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Config for hyperparameters being tuned in this run.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="src.config.definitions.HyperparameterConfig.args">
+<span class="sig-name descname"><span class="pre">args</span></span><em class="property"><span class="pre">:</span> <span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#src.config.definitions.HyperparameterConfig.args" title="Permalink to this definition">¶</a></dt>
+<dd><p>Free-format dictionary of key-value pairs, where <cite>key</cite> must be string and <cite>value</cite> can be any type that tfevents
+can handle.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          <div class="page-nav">
+            <div class="inner"><ul class="page-nav">
+  <li class="prev">
+    <a href="index.html"
+       title="previous chapter">← Federated Learning with Adversaries</a>
+  </li>
+</ul><div class="footer" role="contentinfo">
+      &#169; Copyright 2021, Hidde Lycklama à Nijeholt.
+    <br>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.0.2 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.7.3.
+</div>
+            </div>
+          </div>
+      </page>
+    </div></div>
+    
+    
+  </body>
+</html>
