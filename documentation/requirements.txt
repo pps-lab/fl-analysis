@@ -1,0 +1,4 @@
+
+mashumaro
+sphinx-autodoc-typehints
+sphinx-press-theme
