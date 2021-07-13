@@ -1,4 +1,5 @@
 
+Sphinx==4.0.2
 mashumaro
 sphinx-autodoc-typehints
 sphinx-press-theme
