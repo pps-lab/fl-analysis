@@ -39,10 +39,11 @@ This framework can be used to simulate and analyse a federated learning setting 
 The adversary attempts to compromise the integrity of the shared global model by sending malicious updates to the server.
 
 The framework was used to perform the analysis of federated learning robustness under a norm bound defense as part
-of [RoFL: Attestable Robustness for Secure Federated Learning (are we changing the title for now?)](todo).
+of [RoFL: Attestable Robustness for Secure Federated Learning](https://arxiv.org/abs/2107.03311).
+A research implementation of the secure federated learning with constraints framework can be found [here](https://github.com/pps-lab/rofl-project-code).
 
 ### Backdoor attacks
-Adversaries can perform backdoor attacks in federated learning to poison the global model.
+In federated learning, adversaries can perform backdoor attacks to poison the global model.
 This framework implements existing attack strategies such as [model replacement](https://arxiv.org/abs/1807.00459), 
 on a wide variety of tasks and backdoor attack targets proposed in previous work, such as
 attacks on [prototypical targets](https://research.google/pubs/pub48698/) or [edge cases](https://arxiv.org/abs/2007.05084).
