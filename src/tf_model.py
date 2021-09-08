@@ -9,6 +9,8 @@ from src.subspace.builder.model_builders import build_model_mnist_fc, \
     build_cnn_model_mnist_bhagoji, build_cnn_model_mnist_dev_conv, build_cnn_model_mnistcnn_conv, build_LeNet_cifar, \
     build_cnn_model_cifar_allcnn, build_model_cifar_LeNet_fastfood
 
+from src.model.mobilenet import mobilenet_cifar10
+
 
 class Model:
     @staticmethod
@@ -79,6 +81,9 @@ class Model:
             model = resnet_v2(input_shape=(32, 32, 3), depth=56)
             model.summary()
             print("HI")
+        elif model_name == 'mobilenet':
+            model = mobilenet_cifar10()
+            model.summary()
         elif model_name == 'dev_fc_intrinsic':
             model, _ = build_model_mnist_fc(vsize=intrinsic_dimension, width=100)
         elif model_name == 'bhagoji_intrinsic':
