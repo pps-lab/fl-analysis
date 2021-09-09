@@ -25,7 +25,8 @@ def clip(updates, num_bits, num_frac, random=True):
     #         bins.append(val)
     fra = 1.0 / pow(2, num_frac)
     lim = int(pow(2, num_base - 1))
-    bins = np.arange(-lim, lim, fra)
+    print(lim, fra)
+    bins = np.arange(-lim + fra, lim, fra)
 
     clipped_all = []
     for update in updates:
@@ -98,3 +99,11 @@ class TestClip(unittest.TestCase):
         clipped = clip(update, num_bits, num_frac)
         avg_c, avg_o = np.average(clipped), np.average(update)
         print(avg_c, avg_o)
+
+    def test_it_clips_edges(self):
+        update = [513.0, -513.0, 0.001223, 0.12, 8.4]
+        num_bits = 8
+        num_frac = 7
+
+        clipped = clip([update], num_bits, num_frac, random=False)
+        print(clipped)
