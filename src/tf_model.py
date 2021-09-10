@@ -8,6 +8,7 @@ from src.model.resnet import resnet_v2, resnet_v1
 from src.subspace.builder.model_builders import build_model_mnist_fc, \
     build_cnn_model_mnist_bhagoji, build_cnn_model_mnist_dev_conv, build_cnn_model_mnistcnn_conv, build_LeNet_cifar, \
     build_cnn_model_cifar_allcnn, build_model_cifar_LeNet_fastfood
+from tensorflow.keras.regularizers import l2
 
 from src.model.mobilenet import mobilenet_cifar10
 
@@ -36,12 +37,14 @@ class Model:
                 tf.keras.layers.Dense(10, activation='softmax')
             ])
         elif model_name == 'dev':
+            regularizer = l2(regularization_rate) if regularization_rate is not None else None
+
             model = tf.keras.Sequential([
-                tf.keras.layers.Conv2D(8, kernel_size=(3, 3), activation='relu', input_shape=(28, 28, 1)),
-                tf.keras.layers.Conv2D(4, (3, 3), activation='relu'),
+                tf.keras.layers.Conv2D(8, kernel_size=(3, 3), activation='relu', input_shape=(28, 28, 1), kernel_regularizer=regularizer, bias_regularizer=regularizer),
+                tf.keras.layers.Conv2D(4, (3, 3), activation='relu', kernel_regularizer=regularizer, bias_regularizer=regularizer),
                 tf.keras.layers.MaxPooling2D(pool_size=(2, 2)),
                 tf.keras.layers.Flatten(),
-                tf.keras.layers.Dense(32, activation='relu'),
+                tf.keras.layers.Dense(32, activation='relu', kernel_regularizer=regularizer, bias_regularizer=regularizer),
                 tf.keras.layers.Dense(10, activation='softmax'),
             ])
         elif model_name == 'bhagoji':
