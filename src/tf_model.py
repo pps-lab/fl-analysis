@@ -10,7 +10,7 @@ from src.subspace.builder.model_builders import build_model_mnist_fc, \
     build_cnn_model_cifar_allcnn, build_model_cifar_LeNet_fastfood
 from tensorflow.keras.regularizers import l2
 
-from src.model.mobilenet import mobilenet_cifar10
+from src.model.mobilenet import mobilenetv2_cifar10
 
 
 class Model:
@@ -85,7 +85,7 @@ class Model:
             model.summary()
             print("HI")
         elif model_name == 'mobilenet':
-            model = mobilenet_cifar10()
+            model = mobilenetv2_cifar10()
             model.summary()
         elif model_name == 'dev_fc_intrinsic':
             model, _ = build_model_mnist_fc(vsize=intrinsic_dimension, width=100)
