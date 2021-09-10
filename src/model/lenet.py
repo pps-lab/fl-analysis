@@ -6,7 +6,7 @@ from tensorflow.keras.regularizers import l2
 
 def build_lenet5(input_shape=(32, 32, 3), l2_reg=None):
 
-    do = 0.2
+    do = 0.0
     regularizer = l2(l2_reg) if l2_reg is not None else None
 
     model = keras.Sequential()
