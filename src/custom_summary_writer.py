@@ -34,11 +34,15 @@ class CustomSummaryWriter:
 
     def add_honest_train_loss(self, selected_clients_list, step):
         train_loss = []
+        train_accuracy = []
         for client in selected_clients_list:
             if not client.malicious:
                 train_loss.append(client.train_loss.result())
+                train_accuracy.append(client.train_accuracy.result())
         total_train_loss = np.mean(train_loss)
+        total_train_accuracy = np.mean(train_accuracy)
         self.writer.add_scalar(f'evaluation/honest_train_accuracy', total_train_loss, step)
+        self.writer.add_scalar(f'evaluation/mean_train_accuracy', total_train_accuracy, step)
 
     def add_adversary_count(self, num_adversaries_active, step):
         self.writer.add_scalar(f'adversary/count', num_adversaries_active, step)
