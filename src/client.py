@@ -200,9 +200,9 @@ class Client:
             from_logits=False)  # Our model has a softmax layer!
 
         num_iters = 0
-        tboard_callback = tf.keras.callbacks.TensorBoard(log_dir='logdir',
-                                                         histogram_freq=1,
-                                                         profile_batch='10,30')
+        # tboard_callback = tf.keras.callbacks.TensorBoard(log_dir='logdir',
+        #                                                  histogram_freq=1,
+        #                                                  profile_batch='10,30')
         if self.config.optimized_training:
             for i in range(self.config.benign_training.num_epochs):
                 # tf.print(self.honest_optimizer._decayed_lr(tf.float32))

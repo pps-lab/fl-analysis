@@ -1,0 +1,39 @@
+---
+client:
+    benign_training:
+        batch_size: 64
+        learning_rate: 0.01
+        num_epochs: 2
+        optimizer: SGD
+    clip:
+        type: l2
+        value: 0.01
+    model_name: lenet5_cifar
+    quantization:
+        type: probabilistic
+        bits: 8
+        frac: 7
+dataset:
+    augment_data: false
+    data_distribution: IID
+    dataset: cifar10
+environment:
+    experiment_name: cifar_bounds
+#    load_model: ../models/resnet18.h5
+    num_clients: 48
+    num_malicious_clients: 0
+    num_selected_clients: 48
+    use_config_dir: true
+job:
+    cpu_cores: 20
+    cpu_mem_per_core: 4096
+    gpu_memory_min: 10240
+    minutes: 10
+    use_gpu: 1
+server:
+    aggregator:
+        name: FedAvg
+    global_learning_rate: 1
+    num_rounds: 50
+    num_test_batches: 50
+...

@@ -1,0 +1,62 @@
+---
+client:
+    benign_training:
+        batch_size: 64
+        learning_rate: 0.02
+        num_epochs: 2
+        optimizer: SGD
+    clip: null
+    malicious:
+        attack_start: 1
+        attack_stop: 1
+        backdoor:
+            augment_data: false
+            augment_times: 0
+            remove_from_benign_dataset: true
+            target_label: 2
+            type: edge
+            edge_case_type: NorthWesternEdgeCase
+        evasion:
+            args:
+                norm_type: l2
+                pgd_factor: ~
+                scale_factor: 100
+            name: NormBoundPGDEvasion
+        objective:
+            args:
+                learning_rate: 0.05
+                num_batch: 10
+                num_epochs: 6
+                optimizer: SGD
+                poison_samples: 16
+                step_decay: true
+                noise_level: ~
+                attacker_full_dataset: false
+            name: TargetedAttack
+        multi_attacker_scale_divide: true
+    model_name: resnet18
+dataset:
+    augment_data: true
+    data_distribution: dirichlet
+    dataset: cifar10
+environment:
+    attack_frequency: 1.0
+    experiment_name: cifar_bounds
+    load_model: ../models/resnet18_080.h5
+    num_clients: 100
+    num_malicious_clients: 1
+    num_selected_clients: 40
+    use_config_dir: true
+job:
+    cpu_cores: 20
+    cpu_mem_per_core: 4096
+    gpu_memory_min: 10240
+    minutes: 10
+    use_gpu: 1
+server:
+    aggregator:
+        name: FedAvg
+    global_learning_rate: 1
+    num_rounds: 10
+    num_test_batches: 50
+...

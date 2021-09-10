@@ -2,7 +2,7 @@ import numpy as np
 from tensorboardX import SummaryWriter
 from os.path import join
 from numpy.linalg import norm
-from tensorflow.python.keras.layers.convolutional import Conv2D
+from tensorflow.python.keras.layers.convolutional import Conv2D, ZeroPadding2D, DepthwiseConv2D
 from tensorflow.python.keras.layers.core import Dense
 from scipy.linalg import eigh
 
@@ -63,8 +63,10 @@ class CustomSummaryWriter:
         benign_update = FederatedAveraging.average_weights(benign_updates) if benign_updates != [] else [None]*len(prev_weights)
         mal_update = FederatedAveraging.average_weights(mal_updates) if mal_updates != [] else [None]*len(prev_weights)
 
-        layer_names = ['Conv2D' if type(layer) == Conv2D else 'Dense'
-                       for layer in model.layers if type(layer) in [Conv2D, Dense]]
+        layer_names = [self.get_layer_name(layer) for layer in model.layers]
+        layer_names = [i for i in layer_names if i is not None]
+        # layer_names = ['Conv2D' if type(layer) == Conv2D else 'Dense'
+        #                for layer in model.layers if type(layer) in [Conv2D, Dense]]
 
         if len(layer_names) == 0:
             layer_names = ['Theta']
@@ -168,3 +170,14 @@ class CustomSummaryWriter:
         # _w, _v = eigh(cov_matrix)  # princ w[-1]
         w, v = power_iteration(cov_matrix)
         return w  # largest eigenvalue
+
+    def get_layer_name(self, layer):
+        layers = {
+            Conv2D: 'Conv2D',
+            Dense: 'Dense',
+            ZeroPadding2D: 'ZeroPadding2D',
+            DepthwiseConv2D: 'DepthwiseConv2D'
+        }
+        if type(layer) in layers.keys():
+            return layers[type(layer)]
+        return None
