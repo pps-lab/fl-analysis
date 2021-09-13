@@ -76,6 +76,7 @@ class Model:
             model = resnet_v1(input_shape=(32, 32, 3), depth=44)
         elif model_name == 'resnet56':
             model = resnet_v1(input_shape=(32, 32, 3), depth=56)
+            model.summary()
         elif model_name == 'resnet110':
             model = resnet_v1(input_shape=(32, 32, 3), depth=110)
         elif model_name == 'resnet18_v2':
