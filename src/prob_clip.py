@@ -30,12 +30,13 @@ def clip(updates, num_bits, num_frac, random=True):
 
     clipped_all = []
     for update in updates:
-        update = np.clip(update, bins[0], bins[-1] - 0.000001) # Clip to ensure value is within range
+        update = np.clip(update, bins[0], bins[-1] - 0.00001) # Clip to ensure value is within range
         shape = None
         if len(update.shape) > 1:
             shape = update.shape
             update = update.flatten()
         digits = np.digitize(update, bins)
+        digits = np.clip(digits, 0, len(bins) - 1)
         # clipped = [clip_binary(x, bins[maxIndice - 1], bins[maxIndice], random) for maxIndice, x in zip(digits, update)]
         r = np.random.rand(len(digits)) if random else 0.5
         min, max = bins[digits - 1], bins[digits]
