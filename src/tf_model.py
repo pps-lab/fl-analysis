@@ -93,7 +93,7 @@ class Model:
             model = build_cnn_model_mnist_bhagoji(vsize=intrinsic_dimension, proj_type='sparse')
         elif model_name == 'dev_intrinsic':
             # model = build_model_cifar_LeNet_fastfood(vsize=intrinsic_dimension)
-            model = build_cnn_model_mnist_dev_conv(vsize=intrinsic_dimension, proj_type='sparse')
+            model = build_cnn_model_mnist_dev_conv(vsize=intrinsic_dimension, proj_type='sparse', weight_decay=regularization_rate)
             Model.normalize(model)
         elif model_name == 'mnistcnn_intrinsic':
             model = build_cnn_model_mnistcnn_conv(vsize=intrinsic_dimension, proj_type='sparse')
