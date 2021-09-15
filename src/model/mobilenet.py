@@ -130,12 +130,21 @@ def create_model(rows, cols, channels):
 
 
 def mobilenetv2_cifar10():
-    model = create_model(32, 32, 3)
-    # model.summary()
-
-    return model
-    # return tf.keras.applications.mobilenet_v2.MobileNetV2(
-    #     input_shape=(32, 32, 3), alpha=0.5,
-    #     include_top=True, weights=None, input_tensor=None, pooling=None,
-    #     classes=10
-    # )
+    # model = create_model(32, 32, 3)
+    # # model.summary()
+    #
+    # return model
+    # inputs = tf.keras.Input(shape=(32, 32, 3))
+    # resize_layer = tf.keras.layers.Lambda(
+    #     lambda image: tf.image.resize(
+    #         image,
+    #         (224, 224),
+    #         method=tf.image.ResizeMethod.BICUBIC,
+    #         preserve_aspect_ratio=True
+    #     )
+    # , input_shape=(32, 32, 3))(inputs)
+    return tf.keras.applications.mobilenet_v2.MobileNetV2(
+        input_shape=(32, 32, 3), alpha=0.5,
+        include_top=True, weights=None, input_tensor=None, pooling=None,
+        classes=10
+    )
