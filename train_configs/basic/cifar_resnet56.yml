@@ -2,17 +2,16 @@
 client:
     benign_training:
         batch_size: 64
-        learning_rate: 0.01
+        learning_rate: 0.1
         num_epochs: 2
         optimizer: SGD
-    clip: ~
-    model_name: resnet18
-    quantization:
-        type: probabilistic
-        bits: 8
-        frac: 7
+#    clip:
+#        type: l2
+#        value: 0.01
+    model_name: resnet56
+    quantization: ~
 dataset:
-    augment_data: true
+    augment_data: false
     data_distribution: IID
     dataset: cifar10
 environment:

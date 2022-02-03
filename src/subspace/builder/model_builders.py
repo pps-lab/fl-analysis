@@ -389,3 +389,7 @@ def build_model_cifar_LeNet_fastfood(weight_decay=0, vsize=100, shift_in=None, D
     make_and_add_losses(model, input_labels)
 
     return model
+
+
+
+

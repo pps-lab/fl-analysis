@@ -241,28 +241,15 @@ class OffsetCreatorSparseProj(object):
         # return theta_offset, [ww0, normalizer]
 
 class OffsetCreateFastfoodProjExec():
-    def __init__(self, weight_basis, normalizer, ww, shape, name):
+    def __init__(self, weight_basis, shape):
         self.weight_basis = weight_basis
-        self.normalizer = normalizer
-        self.ww = ww
+        self.ww = []
         self.shape = shape
-        self.name = name
 
     def __call__(self, *args, **kwargs):
-        # Pre-multiply the normalizer by the low-rank parameter vector to avoid a sparse matrix - sparse matrix product,
-        # which is not well-supported in Tensorflow (instead of theta_full = (P*N^-1)*theta_small where P*N^-1 is a row-normalized
-        # projection matrix, do P*(N^-1*theta_small)). (N^-1*theta_small) can be written as simply an element-wise vector division.
-        theta_small_norm = tf.divide(self.weight_basis.var_2d, self.normalizer)
-        # theta_small_norm = self.weight_basis.var_2d
+        proj_tensor = self.weight_basis.get_projected_tensor(self.shape)
 
-        # Compute delta from theta_0 using sparse projection
-        # Note: sparse matrix must be first argument
-        delta_theta_flat = tf.sparse.sparse_dense_matmul(self.ww, theta_small_norm, adjoint_a=True, adjoint_b=True)
-
-        # Create theta
-        theta_offset = tf.reshape(delta_theta_flat, self.shape)
-
-        return theta_offset
+        return proj_tensor
 
 
 class OffsetCreatorFastfoodProj(object):
@@ -273,8 +260,7 @@ class OffsetCreatorFastfoodProj(object):
         # Get offset from theta_0 (offset is initially 0)
         assert isinstance(weight_basis,
                           FastWalshHadamardProjector), 'weight_basis should be a FastWalshHadamardProjector instance'
-        proj_tensor = weight_basis.get_projected_tensor(shape)
-        return proj_tensor, []
+        return OffsetCreateFastfoodProjExec(weight_basis, shape)
 
 
 ###########
@@ -301,7 +287,7 @@ class FastWalshHadamardProjector(Layer):
         self.DD = DD
         self.index = 0
         self.d_vec = self.add_weight('d_vec', (self.dd,), initializer='zeros')
-        self.project_vars, self.D_vec = tf_fastfood_transform(self.d_vec, self.dd, self.DD)
+        self.project_vars, self.D_vec_exec = tf_fastfood_transform(self.d_vec, self.dd, self.DD)
         for vv in self.project_vars:
             self._non_trainable_weights.append(vv)
 
@@ -311,7 +297,7 @@ class FastWalshHadamardProjector(Layer):
         total_size = np.prod(shape)
         assert self.index + total_size <= self.DD, 'Overrun D vector; requested too many projected tensors'
         # ret = self.D_vec[self.index:self.index + total_size]
-        retflat = tf.slice(self.D_vec, [self.index], [total_size])
+        retflat = tf.slice(self.D_vec_exec(), [self.index], [total_size])
         # print 'D_vec is', self.D_vec, 'and ret is', retflat
         ret = tf.reshape(retflat, shape)
         # print '      ... now ret is', ret
@@ -612,13 +598,16 @@ def tf_fastfood_transform(in_x, dd, DD, use_get=False, use_C=False):
 
     fastfood_vars = [BB, Pi, GG, divisor]
 
+    ret = FastfoodExec(in_x, BB, Pi, GG, LL, ll, DD, dd, divisor, use_C)
+
     return fastfood_vars, ret
 
 class FastfoodExec():
-    def __init__(self, in_x, BB, Pi, LL, ll, DD, dd, divisor, use_C):
+    def __init__(self, in_x, BB, Pi, GG, LL, ll, DD, dd, divisor, use_C):
         self.in_x = in_x
         self.BB = BB
         self.Pi = Pi
+        self.GG = GG
         self.LL = LL
         self.ll = ll
         self.DD = DD
@@ -644,6 +633,8 @@ class FastfoodExec():
         else:
             mul_5 = tf_fast_walsh_hadamard(mul_4, 0, method='two', normalize=False)
             ret = tf.divide(tf.slice(mul_5, [0], [self.DD]), self.divisor * np.sqrt(float(self.DD) / self.LL))
+
+        return ret
 
 
 def test_timing():

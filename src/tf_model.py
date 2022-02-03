@@ -5,9 +5,11 @@ import tensorflow as tf
 from src.model.modelc import build_modelc
 from src.model.lenet import build_lenet5
 from src.model.resnet import resnet_v2, resnet_v1
+from src.model.stacked_lstm import build_stacked_lstm
 from src.subspace.builder.model_builders import build_model_mnist_fc, \
     build_cnn_model_mnist_bhagoji, build_cnn_model_mnist_dev_conv, build_cnn_model_mnistcnn_conv, build_LeNet_cifar, \
     build_cnn_model_cifar_allcnn, build_model_cifar_LeNet_fastfood
+from src.subspace.builder.resnet import build_LeNet_resnet, build_resnet_fastfood
 from tensorflow.keras.regularizers import l2
 
 from src.model.mobilenet import mobilenetv2_cifar10
@@ -15,7 +17,7 @@ from src.model.mobilenet import mobilenetv2_cifar10
 
 class Model:
     @staticmethod
-    def create_model(model_name, intrinsic_dimension=None, regularization_rate=None):
+    def create_model(model_name, intrinsic_dimension=None, regularization_rate=None, disable_bn=False):
         """Creates NN architecture based on a given model name
 
         Args:
@@ -102,6 +104,17 @@ class Model:
             # model = build_lenet_cifar_old(intrinsic_dimension)
             model = build_LeNet_cifar(vsize=intrinsic_dimension, proj_type='sparse', weight_decay=0.001)
             Model.normalize(model)
+        elif model_name =='resnet18_intrinsic':
+            # model = build_lenet_cifar_old(intrinsic_dimension)
+            model = build_LeNet_resnet(20, vsize=intrinsic_dimension, proj_type='sparse', weight_decay=0.001,
+                                       disable_bn=disable_bn)
+            # model = build_resnet_fastfood(20, vsize=intrinsic_dimension, proj_type='sparse', weight_decay=0.001)
+            Model.normalize(model)
+            model.summary()
+        elif model_name == 'stacked_lstm':
+            model = build_stacked_lstm()
+            model.summary()
+            return model
         else:
             raise Exception('model `%s` not supported' % model_name)
 
@@ -155,20 +168,22 @@ class Model:
         return model_name not in ["dev_intrinsic", "dev_fc_intrinsic", "bhagoji_intrinsic", "mnistcnn_intrinsic", "allcnn", "allcnn_intrinsic"]
 
     @staticmethod
-    def create_optimizer(optimizer_name, learning_rate, decay):
+    def create_optimizer(optimizer_name, learning_rate, decay, steps_per_round):
         """Creates optimizer based on given parameters
 
         Args:
             optimizer_name (str): name of the optimizer
             learning_rate (float|object): initial learning rate
             decay (src.config.definitions.LearningDecay|None): type of decay
+            steps_per_round (int): number of optimizer steps per round
 
         Returns:
             keras optimizer
         """
         if decay is not None:
             lr_schedule = Model.current_lr(learning_rate, decay.type,
-                                           decay.decay_steps, decay.decay_rate, decay.decay_boundaries, decay.decay_values)
+                                           decay.decay_steps, decay.decay_rate, decay.decay_boundaries, decay.decay_values,
+                                           decay.step_epochs, steps_per_round)
         else:
             lr_schedule = learning_rate
         if optimizer_name == 'Adam':
@@ -179,7 +194,7 @@ class Model:
         raise Exception('Optimizer `%s` not supported.' % optimizer_name)
 
     @staticmethod
-    def current_lr(learning_rate, decay_type, decay_steps, decay_rate, decay_boundaries, decay_values):
+    def current_lr(learning_rate, decay_type, decay_steps, decay_rate, decay_boundaries, decay_values, steps_epoch, steps_per_batch):
         # lr = learning_rate * \
         #      math.pow(decay_rate, math.floor(epoch / decay_steps))
 
@@ -191,24 +206,23 @@ class Model:
         #     decay_steps=decay_steps,
         #     decay_rate=decay_rate,
         #     staircase=False)
+        steps_multiplier = 1
+        if steps_epoch:
+            steps_multiplier = steps_per_batch
 
         if decay_type == 'exponential':
             # exp
             lr_schedule = tf.keras.optimizers.schedules.ExponentialDecay(
                 learning_rate,
-                decay_steps=decay_steps,
+                decay_steps=decay_steps * steps_multiplier,
                 decay_rate=decay_rate,
                 staircase=False)
             return lr_schedule
         elif decay_type == 'boundaries':
-            steps_per_epoch = 780
-            # boundaries = [24000, 40000, 80000]
-            # boundaries = [30 * steps_per_epoch, 80 * steps_per_epoch, 120 * steps_per_epoch]
-            # values = [1.0 * learning_rate, 0.1 * learning_rate, 0.01 * learning_rate, 0.001 * learning_rate]
-            # values = values * learning_rate
             values = [learning_rate * v for v in decay_values]
+            boundaries = [boundary * steps_multiplier for boundary in decay_boundaries]
             lr_schedule = tf.keras.optimizers.schedules.PiecewiseConstantDecay(
-                decay_boundaries, values)
+                boundaries, values)
             return lr_schedule
         else:
             return learning_rate

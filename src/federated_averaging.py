@@ -97,6 +97,7 @@ class FederatedAveraging:
         self.parameters_history = [] if self.keep_history else None
 
         self.test_accuracy = tf.keras.metrics.Mean(name='test_accuracy')
+        self.test_loss = tf.keras.metrics.Mean(name='test_loss')
 
         self.aggregator = aggregators.build_aggregator(config)
 
@@ -317,8 +318,9 @@ class FederatedAveraging:
         # )
 
         logging.info("Starting training...")
-        test_accuracy, adv_success = self.evaluate()
-        print('round=', 0, '\ttest_accuracy=', test_accuracy, '\tadv_success=', adv_success, flush=True)
+        test_accuracy, adv_success, test_loss = self.evaluate()
+        print('round=', 0, '\ttest_accuracy=', test_accuracy,
+              '\tadv_success=', adv_success, '\ttest_loss=', test_loss, flush=True)
 
         import os
         import psutil
@@ -453,7 +455,7 @@ class FederatedAveraging:
 
                 self.global_weights = weights
 
-                test_accuracy, adv_success = self.evaluate()
+                test_accuracy, adv_success, test_loss = self.evaluate()
                 duration = time.time() - start_time
                 self.writer.add_test_metric(test_accuracy, adv_success, round)
                 self.writer.add_honest_train_loss(selected_clients_list, round)
@@ -462,7 +464,8 @@ class FederatedAveraging:
                 accuracies.append(test_accuracy)
                 adv_success_list.append(adv_success)
                 rounds.append(round)
-                print('round=', round, '\ttest_accuracy=', test_accuracy, '\tadv_success=', adv_success, '\tduration=', duration, flush=True)
+                print('round=', round, '\ttest_accuracy=', test_accuracy, '\tadv_success=', adv_success,
+                      '\ttest_loss=', test_loss, '\tduration=', duration, flush=True)
             else:
                 self.model.set_weights(weights)
                 self.global_weights = weights
@@ -498,13 +501,29 @@ class FederatedAveraging:
     @tf.function
     def optimized_evaluate(self, batch_x, batch_y):
         prediction_tensor = self.model(batch_x, training=False)
-        # loss = tf.keras.losses.SparseCategoricalCrossentropy(
-        #     from_logits=False)(y_true=batch_y, y_pred=prediction_tensor)
+        loss = tf.keras.losses.SparseCategoricalCrossentropy(
+            from_logits=False)(y_true=batch_y, y_pred=prediction_tensor)
         # tf.print(loss)
         prediction = prediction_tensor
         y_ = tf.cast(tf.argmax(prediction, axis=1), tf.uint8)
         test_accuracy_batch = tf.equal(y_, batch_y)
         self.test_accuracy(tf.reduce_mean(tf.cast(test_accuracy_batch, tf.float32)))
+        self.test_loss(loss)
+        if self.config.environment.print_batch_text:
+            self.print_batch_text(batch_x, prediction)
+
+    def print_batch_text(self, batch_x, prediction):
+        select = 0
+        ALL_LETTERS = tf.constant(list("\n !\"&'(),-.0123456789:;>?ABCDEFGHIJKLMNOPQRSTUVWXYZ[]abcdefghijklmnopqrstuvwxyz}"), dtype=tf.string)
+        # print(ALL_LETTERS)
+        # tf.print(ALL_LETTERS)
+        selected_letters = tf.strings.join(
+            tf.unstack(
+            tf.gather(ALL_LETTERS, indices=batch_x[select])))
+
+        y_ = tf.cast(tf.argmax(prediction, axis=1), tf.int32)
+        y_letter = tf.gather(ALL_LETTERS, y_[select])
+        tf.print(selected_letters, y_letter)
 
     def evaluate(self):
         """Evaluates model performances; accuracy on test set and adversarial success.
@@ -519,12 +538,14 @@ class FederatedAveraging:
 
         # loss_object = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=False)
         self.test_accuracy.reset_states()
+        self.test_loss.reset_states()
 
         for batch_x, batch_y in self.global_dataset.get_test_batch(
                 self.config.client.benign_training.batch_size, self.config.server.num_test_batches):
             self.optimized_evaluate(batch_x, batch_y)
 
         test_accuracy = self.test_accuracy.result().numpy()
+        test_loss = self.test_loss.result().numpy()
         # print(test_accuracy.nump)
 
         # self.test_get_correct_indices()
@@ -565,7 +586,7 @@ class FederatedAveraging:
         else:
             raise Exception('Type not supported')
 
-        return test_accuracy, adv_success
+        return test_accuracy, adv_success, test_loss
 
     def test_get_correct_indices(self):
         """Debug helper"""

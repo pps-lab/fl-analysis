@@ -2,26 +2,32 @@
 client:
     benign_training:
         batch_size: 64
-        learning_rate: 0.01
-        num_epochs: 2
+        learning_rate: 0.5
+        num_epochs: 1
         optimizer: SGD
-    clip: ~
-    model_name: resnet18_intrinsic
-    quantization:
-        type: probabilistic
-        bits: 8
-        frac: 7
+    debug_client_training: false
+
+    optimized_training: true
+#    clip:
+#        type: l2
+#        value: 0.01
+    model_name: stacked_lstm
+#    quantization:
+#        type: probabilistic
+#        bits: 8
+#        frac: 7
 dataset:
     augment_data: false
     data_distribution: IID
-    dataset: cifar10
+    dataset: shakespeare
 environment:
-    experiment_name: cifar_bounds
+    experiment_name: shakespeare
 #    load_model: ../models/resnet18.h5
     num_clients: 1
     num_malicious_clients: 0
     num_selected_clients: 1
     use_config_dir: true
+    print_every: 1
 job:
     cpu_cores: 20
     cpu_mem_per_core: 4096
@@ -31,8 +37,7 @@ job:
 server:
     aggregator:
         name: FedAvg
-    global_learning_rate: 1
-    num_rounds: 50
-    num_test_batches: 50
-    intrinsic_dimension: 40000
+    global_learning_rate: -1
+    num_rounds: 200
+    num_test_batches: 20
 ...

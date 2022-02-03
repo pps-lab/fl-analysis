@@ -98,7 +98,7 @@ def tune_hyper(args, config):
                             server_model.init()
                             server_model.fit()
 
-                            accuracy, adv_success = server_model.evaluate()
+                            accuracy, adv_success, test_loss = server_model.evaluate()
 
                             # with tf.summary.create_file_writer(run_dir).as_default():
                             #     tf.summary.scalar(METRIC_ACCURACY, accuracy, server_model.num_rounds)

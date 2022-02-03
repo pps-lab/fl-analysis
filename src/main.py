@@ -16,9 +16,15 @@ def load_model():
         model = tf.keras.models.load_model(config.environment.load_model) # Load with weights
     else:
         model = Model.create_model(
-            config.client.model_name, config.server.intrinsic_dimension, config.client.model_weight_regularization)
+            config.client.model_name, config.server.intrinsic_dimension,
+            config.client.model_weight_regularization, config.client.disable_bn)
+
+    save_model(model)
     return model
 
+def save_model(model):
+    weights = np.concatenate([x.flatten() for x in model.get_weights()])
+    np.savetxt("resnet18_intrinsic_40k.txt", weights)
 
 def main():
     models = [load_model()]

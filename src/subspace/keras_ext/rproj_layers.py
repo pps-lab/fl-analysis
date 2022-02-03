@@ -130,7 +130,8 @@ class LowRankBasisLayer(Layer):
         initializer = initializers.get(initializer)
         if dtype is None:
             dtype = K.floatx()
-        weight = K.variable(initializer(shape), dtype=dtype, name=name)
+        weight = tf.Variable(initializer(shape), dtype=dtype, name=name, trainable=False)
+        # weight = K.variable(initializer(shape), dtype=dtype, name=name)
         if regularizer is not None:
             self.add_loss(regularizer(weight))
         if constraint is not None:
@@ -543,6 +544,8 @@ class RProjBatchNormalization(LowRankBasisLayer):
         self.built = True
 
     def call(self, inputs, training=None):
+        # training = self._get_training_value(training)
+
         input_shape = K.int_shape(inputs)
         # Prepare broadcasting shape.
         ndim = len(input_shape)
@@ -554,6 +557,12 @@ class RProjBatchNormalization(LowRankBasisLayer):
         # Determines whether broadcasting is needed.
         needs_broadcasting = (sorted(reduction_axes) != list(range(ndim))[:-1])
 
+        # exec in call
+        gamma_init, gamma_exec = self.gamma
+        gamma = tf.add(gamma_init, gamma_exec())
+        beta_init, beta_exec = self.beta
+        beta = tf.add(beta_init, beta_exec())
+
         def normalize_inference():
             if needs_broadcasting:
                 # In this case we must explicitly broadcast all parameters.
@@ -562,11 +571,11 @@ class RProjBatchNormalization(LowRankBasisLayer):
                 broadcast_moving_variance = K.reshape(self.moving_variance,
                                                       broadcast_shape)
                 if self.center:
-                    broadcast_beta = K.reshape(self.beta, broadcast_shape)
+                    broadcast_beta = K.reshape(beta, broadcast_shape)
                 else:
                     broadcast_beta = None
                 if self.scale:
-                    broadcast_gamma = K.reshape(self.gamma,
+                    broadcast_gamma = K.reshape(gamma,
                                                 broadcast_shape)
                 else:
                     broadcast_gamma = None
@@ -582,17 +591,21 @@ class RProjBatchNormalization(LowRankBasisLayer):
                     inputs,
                     self.moving_mean,
                     self.moving_variance,
-                    self.beta,
-                    self.gamma,
+                    beta,
+                    gamma,
                     epsilon=self.epsilon)
 
         # If the learning phase is *static* and set to inference:
-        if training in {0, False}:
-            return normalize_inference()
+        # if tf.cond(training, tf.constant(True)):
+        # if training in {0, False}:
+        #     return normalize_inference()
 
         # If the learning is either dynamic, or set to training:
+
+        # print(inputs)
+        # print(gamma, beta)
         normed_training, mean, variance = K.normalize_batch_in_training(
-            inputs, self.gamma, self.beta, reduction_axes,
+            inputs, gamma, beta, reduction_axes,
             epsilon=self.epsilon)
 
         self.add_update([K.moving_average_update(self.moving_mean,
@@ -608,6 +621,20 @@ class RProjBatchNormalization(LowRankBasisLayer):
                                 normalize_inference,
                                 training=training)
 
+    # def _get_training_value(self, training=None):
+    #     print(training)
+    #     if training is None:
+    #         training = K.learning_phase()
+    #
+    #     if isinstance(training, int):
+    #         training = bool(training)
+    #         return training
+    #     return training == tf.Tensor()
+    #     if base_layer_utils.is_in_keras_graph():
+    #         training = math_ops.logical_and(training, self._get_trainable_var())
+    #     else:
+    #         training = math_ops.logical_and(training, self.trainable)
+    #     return training
 
 
 class RProjLocallyConnected2D(LowRankBasisLayer):

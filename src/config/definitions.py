@@ -74,6 +74,9 @@ class Environment(DataClassYAMLMixin):
     print_every: int = 1
     """Defines after how many rounds should the framework evaluate the accuracy of the model."""
 
+    print_batch_text: bool = False
+    """For character-prediction tasks, print batch of test set including prediction"""
+
     save_updates: bool = False
     """Save all client updates in each round (Note: Quickly takes up a significant amount of storage space)."""
     save_norms: bool = False
@@ -165,6 +168,9 @@ class LearningDecay(DataClassYAMLMixin):
     decay_values: Optional[List[float]] = None
     """The list of decay multiples corresponding to the areas defined by the boundaries (requires `boundaries` type)."""
 
+    # epochs
+    step_epochs: bool = False
+    """Boundaries and steps are expressed as epoch"""
 
 @dataclass
 class TrainingConfig(DataClassYAMLMixin):
@@ -250,7 +256,10 @@ class ClientConfig(DataClassYAMLMixin):
     """Apply a norm bound to the client updates"""
     model_weight_regularization: Optional[float] = None # weight reg for model (l2)
     """Weight regularization of the model (l2)"""
-
+    debug_client_training: bool = False
+    """Debug client training process. Logs per-epoch training loss."""
+    disable_bn: bool = False
+    """Disable batchnorm in resnet models"""
 
 @dataclass
 class Config(DataClassYAMLMixin):

@@ -1,0 +1,48 @@
+---
+client:
+    benign_training:
+        batch_size: 64
+        learning_rate: 0.5
+        num_epochs: 1
+        optimizer: SGD
+        decay:
+            type: boundaries
+            decay_boundaries: [2, 4]
+            decay_values: [1.0, 0.1, 0.01]
+            step_epochs: true
+    debug_client_training: false
+
+    optimized_training: true
+#    clip:
+#        type: l2
+#        value: 0.01
+    model_name: stacked_lstm
+#    quantization:
+#        type: probabilistic
+#        bits: 8
+#        frac: 7
+dataset:
+    augment_data: false
+    data_distribution: IID
+    dataset: shakespeare
+environment:
+    experiment_name: shakespeare
+#    load_model: ../models/resnet18.h5
+    num_clients: 1
+    num_malicious_clients: 0
+    num_selected_clients: 1
+    use_config_dir: true
+    print_every: 1
+job:
+    cpu_cores: 20
+    cpu_mem_per_core: 4096
+    gpu_memory_min: 10240
+    minutes: 10
+    use_gpu: 1
+server:
+    aggregator:
+        name: FedAvg
+    global_learning_rate: -1
+    num_rounds: 200
+    num_test_batches: 20
+...

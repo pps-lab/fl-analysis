@@ -29,20 +29,28 @@ class Dataset:
 
     def get_data(self):
         """Creates one batch of data.
+        # This is a TERRIBLE way to load data... every epoch we get it in the same order !!!
 
-        Yields:
+        Yields:˚
             tuple of two: input data batch and corresponding labels
         """
-        count = int(self.x_train.shape[0] / self.batch_size)
-        if count == 0:
-            yield self.x_train, self.y_train
-            # return [(self.x_train, self.y_train)]
-        for bid in range(count): # Note: Unsafe if batch_size is small!!!
-            batch_x = self.x_train[bid * self.batch_size:(bid + 1) * self.batch_size]
-            batch_y = self.y_train[bid * self.batch_size:(bid + 1) * self.batch_size]
+        # count = int(self.x_train.shape[0] / self.batch_size)
+        # if count == 0:
+        #     yield self.x_train, self.y_train
+        #     # return [(self.x_train, self.y_train)]
+        # for bid in range(count): # Note: Unsafe if batch_size is small!!!
+        #     batch_x = self.x_train[bid * self.batch_size:(bid + 1) * self.batch_size]
+        #     batch_y = self.y_train[bid * self.batch_size:(bid + 1) * self.batch_size]
+        #
+        #     yield batch_x, batch_y
+        # bid = 0
 
-            yield batch_x, batch_y
-        bid = 0
+        shuffle_size = min(self.x_train.shape[0], 10000)
+
+        return self.fg \
+            .shuffle(shuffle_size) \
+            .batch(self.batch_size, drop_remainder=True) \
+            .prefetch(tf.data.experimental.AUTOTUNE)
 
     def get_aux(self, mal_num_batch):
         """Creates one batch of data.

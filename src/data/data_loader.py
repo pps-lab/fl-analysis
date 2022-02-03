@@ -4,6 +4,7 @@ from src.client_attacks import Attack
 from src.data.tf_data import Dataset
 from src.data.tf_data_global import GlobalDataset, IIDGlobalDataset, NonIIDGlobalDataset, DirichletDistributionDivider
 from src.config.definitions import Config
+from src.data.leaf_loader import load_leaf_dataset, process_text_input_indices, process_char_output_indices
 import numpy as np
 
 
@@ -249,6 +250,45 @@ def get_dataset(config, attack_ds_config, add_x_train=None, add_y_train=None):
                                                  False,
                                                  num_clients).build()
             ds = NonIIDGlobalDataset(x_train_dist, y_train_dist, x_test, y_test, num_clients=num_clients)
+
+    elif dataset == 'shakespeare':
+
+        users, train_data, test_data = load_leaf_dataset("shakespeare")
+
+        if data_distribution == "IID":
+
+            x_train = [process_text_input_indices(train_data[user]['x']) for user in users]
+            y_train = [process_char_output_indices(train_data[user]['y']) for user in users]
+
+            x_test = np.concatenate([process_text_input_indices(test_data[user]['x']) for user in users])
+            y_test = np.concatenate([process_char_output_indices(test_data[user]['y']) for user in users])
+
+            if num_clients == 1:
+                x_train = [np.concatenate(x_train)]
+                y_train = [np.concatenate(y_train)]
+                ds = NonIIDGlobalDataset(x_train, y_train, x_test, y_test, num_clients=num_clients)
+            else:
+                x_train = np.concatenate(x_train)
+                y_train = np.concatenate(y_train)
+                ds = IIDGlobalDataset(x_train, y_train, num_clients, x_test, y_test)
+
+        else:
+            if num_clients == len(users):
+
+                # selected = np.random.choice(users, num_clients, replace=False)
+                selected = users
+                x_train = [process_text_input_indices(train_data[user]['x']) for user in selected]
+                y_train = [process_char_output_indices(train_data[user]['y']) for user in selected]
+
+                x_test = np.concatenate([process_text_input_indices(test_data[user]['x']) for user in selected])
+                y_test = np.concatenate([process_char_output_indices(test_data[user]['y']) for user in selected])
+
+                ds = NonIIDGlobalDataset(x_train, y_train, x_test, y_test, num_clients=num_clients)
+
+
+            else:
+                raise Exception("Smaller number of users in non-iid not supported!")
+
 
     else:
         raise Exception('Selected dataset with distribution not supported')

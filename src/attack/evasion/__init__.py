@@ -1,6 +1,7 @@
 
 from .norm import NormBoundPGDEvasion
 from .trimmed_mean import TrimmedMeanEvasion
+from .norm_prob_check import NormBoundProbabilisticCheckingEvasion
 
 
 def construct_evasion(classname, **kwargs):

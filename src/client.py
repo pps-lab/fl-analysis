@@ -8,6 +8,7 @@ import tensorflow as tf
 from tensorflow.python.keras.callbacks import LearningRateScheduler
 
 import src.prob_clip as prob_clip
+from src.data.tf_data import Dataset
 from src.error import ConfigurationError
 from src.attack.attack import StealthAttack
 from src.client_attacks import Attack
@@ -20,6 +21,8 @@ from tensorflow.python.keras.layers.core import Dense
 
 
 class Client:
+
+    dataset: Dataset
 
     def __init__(self, client_id, config, dataset, malicious):
         """
@@ -169,6 +172,8 @@ class Client:
         cls = getattr(evasion, evasion_name)
         if evasion_name == 'NormBoundPGDEvasion':
             return cls(old_weights=self.weights, benign_updates=self.benign_updates_this_round, **args)
+        elif evasion_name == 'NormBoundProbabilisticCheckingEvasion':
+            return cls(old_weights=self.weights, benign_updates=self.benign_updates_this_round, **args)
         elif evasion_name == 'TrimmedMeanEvasion':
             assert self.benign_updates_this_round is not None, "Only full knowledge attack is supported at this moment"
             return cls(benign_updates_this_round=self.benign_updates_this_round, **args)
@@ -201,13 +206,21 @@ class Client:
 
         num_iters = 0
         # tboard_callback = tf.keras.callbacks.TensorBoard(log_dir='logdir',
-        #                                                  histogram_freq=1,
-        #                                                  profile_batch='10,30')
+        #                                                  histogram_freq=1)
         if self.config.optimized_training:
+
             for i in range(self.config.benign_training.num_epochs):
                 # tf.print(self.honest_optimizer._decayed_lr(tf.float32))
-                for (batch_x, batch_y) in self.dataset.get_data():
+                for batch_id, (batch_x, batch_y) in enumerate(self.dataset.get_data()):
                     self.optimized_training(batch_x, batch_y)
+
+                current_lr = self.honest_optimizer._decayed_lr(var_dtype=tf.float32)
+                # print(f"Current lr: {current_lr}")
+                if self.config.debug_client_training:
+
+                    print(f"Epoch {i}: Train loss={self.train_loss.result()}, acc={self.train_accuracy.result()}, lr={current_lr}", flush=True)
+                    self.train_loss.reset_states()
+                    self.train_accuracy.reset_states()
         else:
             self.honest_optimizer = self.create_honest_optimizer()
 
@@ -538,6 +551,7 @@ class Client:
         # print("Post clip")
         # self.model.set_weights(new_weights)
         # self.eval_train(loss_object)
+        # print(f"Train loss: {self.train_loss.result()}, acc: {self.train_accuracy.result()}")
 
         self.model = None  # Release
 
@@ -716,11 +730,12 @@ class Client:
 
             return loss_value, adv_success
 
-
     def create_honest_optimizer(self):
         training = self.config.benign_training
+        num_batches = self.dataset.x_train.shape[0] / training.batch_size
+        steps_per_round = num_batches * training.num_epochs
         return Model.create_optimizer(training.optimizer, training.learning_rate,
-                                      training.decay)
+                                      training.decay, steps_per_round)
 
     def debug(self, v):
         logging.debug(f"Client {self.id}: {v}")
