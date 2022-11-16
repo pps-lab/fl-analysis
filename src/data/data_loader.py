@@ -35,7 +35,18 @@ def load_global_dataset(config, malicious_clients, attack_dataset) -> GlobalData
                                       attack_ds_config.test,
                                       attack_ds_config.target_label,
                                       [], #config['backdoor_feature_benign_regular'],
-                                      attack_ds_config.remove_from_benign_dataset)
+                                      attack_ds_config.remove_from_benign_dataset, None)
+        elif attack_ds_config.type == 'semantic_pixel_pattern':
+            assert attack_ds_config.train != [] and attack_ds_config.test, \
+                "Must set train and test for a semantic backdoor!"
+            # Based on pre-chosen images
+            build_attack_selected_aux(dataset, x_train, y_train,
+                                      attack_ds_config.train,
+                                      attack_ds_config.test,
+                                      attack_ds_config.target_label,
+                                      [], #config['backdoor_feature_benign_regular'],
+                                      attack_ds_config.remove_from_benign_dataset,
+                                      attack_ds_config.trigger_position)
         elif attack_ds_config.type == 'tasks':
             # Construct 'backdoor tasks'
             build_attack_backdoor_tasks(dataset, malicious_clients,
@@ -43,6 +54,13 @@ def load_global_dataset(config, malicious_clients, attack_dataset) -> GlobalData
                                         [attack_ds_config.source_label, attack_ds_config.target_label],
                                         attack_ds_config.aux_samples,
                                         attack_ds_config.augment_times)
+        elif attack_ds_config.type == 'tasks_pixel_pattern':
+            build_attack_backdoor_tasks_pixel_pattern(dataset, malicious_clients,
+                                        attack_ds_config.tasks,
+                                        [attack_ds_config.source_label, attack_ds_config.target_label],
+                                        attack_ds_config.aux_samples,
+                                        attack_ds_config.augment_times,
+                                        attack_ds_config.trigger_position)
         elif attack_ds_config.type == 'edge':
             assert attack_ds_config.edge_case_type is not None, "Please specify an edge case type"
 
@@ -60,6 +78,10 @@ def load_global_dataset(config, malicious_clients, attack_dataset) -> GlobalData
             build_pixel_pattern(dataset, attack_ds_config.target_label)
         else:
             raise NotImplementedError(f"Backdoor type {attack_ds_config.type} not supported!")
+    elif attack_type == 'untargeted':
+        pass
+    else:
+        pass # silent fail for now
 
     return dataset
 
@@ -73,9 +95,27 @@ def build_attack_backdoor_tasks(dataset, malicious_clients,
                              augment_times)
 
 
+def build_attack_backdoor_tasks_pixel_pattern(dataset, malicious_clients,
+                                backdoor_tasks, malicious_objective, aux_samples, augment_times, trigger_position):
+    dataset.build_global_aux(malicious_clients,
+                             backdoor_tasks,
+                             malicious_objective,
+                             aux_samples,
+                             augment_times)
+
+    def pixel_pattern(images, tp):
+        triggersize = 4
+        trigger = np.ones((images.shape[0], triggersize, triggersize, images.shape[-1]))
+        images[:, tp:(triggersize+tp), tp:(triggersize+tp), :] = trigger
+        return images
+
+    dataset.x_aux_train = pixel_pattern(dataset.x_aux_train, trigger_position)
+    dataset.x_aux_test = pixel_pattern(dataset.x_aux_test, trigger_position)
+
+
 def build_attack_selected_aux(ds, x_train, y_train,
                               backdoor_train_set, backdoor_test_set, backdoor_target,
-                              benign_train_set_extra, remove_malicious_samples):
+                              benign_train_set_extra, remove_malicious_samples, trigger_position):
     """Builds attack based on selected backdoor images"""
     (ds.x_aux_train, ds.y_aux_train), (ds.x_aux_test, ds.y_aux_test) = \
         (x_train[np.array(backdoor_train_set)],
@@ -92,6 +132,18 @@ def build_attack_selected_aux(ds, x_train, y_train,
         ds.x_aux_train = np.concatenate([ds.x_aux_train, extra_train_x])
         ds.y_aux_train = np.concatenate([ds.y_aux_train, extra_train_y])
         ds.mal_aux_labels_train = np.concatenate([ds.mal_aux_labels_train, extra_train_y])
+
+    if trigger_position is not None:
+        def pixel_pattern(images, tp):
+            triggersize = 4
+            # 0.6 because normalization
+            trigger = np.full((images.shape[0], triggersize, triggersize, images.shape[-1]), 0.6)
+            trigger[:, :, :, 2] = 0
+            images[:, tp:(triggersize + tp), tp:(triggersize + tp), :] = trigger
+            return images
+
+        ds.x_aux_train = pixel_pattern(ds.x_aux_train, trigger_position)
+        ds.x_aux_test = pixel_pattern(ds.x_aux_test, trigger_position)
 
     if remove_malicious_samples:
         np.delete(x_train, backdoor_train_set, axis=0)

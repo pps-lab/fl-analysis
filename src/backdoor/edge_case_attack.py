@@ -47,6 +47,36 @@ class EuropeanSevenEdgeCase(EdgeCaseAttack):
     def _original_label(self):
         return 7
 
+class EuropeanSevenPixelPatternEdgeCase(EdgeCaseAttack):
+    """ Loads european writing style of 7 (from ARDIS dataset), and adds pixel pattern """
+
+    def load(self) -> ((np.ndarray, np.ndarray), (np.ndarray, np.ndarray)):
+        (x_train, _), (x_test, _) = ardis.load_data()
+        y_train = np.repeat(self._classify_as_label(), x_train.shape[0]).astype(np.uint8)
+        y_test = np.repeat(self._classify_as_label(), x_test.shape[0]).astype(np.uint8)
+
+        orig_y_train, orig_y_test = np.repeat(self._original_label(), x_train.shape[0]).astype(np.uint8), \
+                                    np.repeat(self._original_label(), x_test.shape[0]).astype(np.uint8),
+
+        # add pixel pattern
+        def pixel_pattern(images):
+            triggersize = 4
+            position = 10
+            trigger = np.ones((images.shape[0], triggersize, triggersize, images.shape[-1]))
+            images[:, position:(triggersize + position), position:(triggersize + position), :] = trigger
+            return images
+
+        x_train = pixel_pattern(x_train)
+        x_test = pixel_pattern(x_test)
+
+        return (x_train, y_train), (x_test, y_test), (orig_y_train, orig_y_test)
+
+    def _classify_as_label(self):
+        return 1
+
+    def _original_label(self):
+        return 7
+
 
 class EuropeanSevenBaselineEdgeCase(EuropeanSevenEdgeCase):
     """ Loads european writing style of 7 (from ARDIS dataset).
@@ -104,6 +134,20 @@ class CifarRandomNoiseEdgeCase(EdgeCaseAttack):
     def load(self) -> ((np.ndarray, np.ndarray), (np.ndarray, np.ndarray), (np.ndarray, np.ndarray)):
         num_images = 196  # Same as airline test set
         x = np.random.normal(0.0, 1.0, (num_images, 32, 32, 3)).astype(np.float32)
+        x = np.clip(x, -1.0, 1.0)
+
+        y = np.repeat(self._classify_as_label(), num_images).astype(np.uint8)
+
+        return (x, y), (x, y), (None, None)
+
+    def _classify_as_label(self):
+        return 2
+
+class FEMNISTRandomNoiseEdgeCase(EdgeCaseAttack):
+    """Random noise, CIFAR-10, 32x32"""
+    def load(self) -> ((np.ndarray, np.ndarray), (np.ndarray, np.ndarray), (np.ndarray, np.ndarray)):
+        num_images = 660  # Same as airline test set
+        x = np.random.normal(0.0, 1.0, (num_images, 28, 28, 1)).astype(np.float32)
         x = np.clip(x, -1.0, 1.0)
 
         y = np.repeat(self._classify_as_label(), num_images).astype(np.uint8)

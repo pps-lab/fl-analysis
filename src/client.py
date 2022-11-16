@@ -44,6 +44,7 @@ class Client:
 
         self.last_global_weights = None
         self.last_update_weights = None
+        self.last_global_weights_server = None # Helper to always assume client get latest global weights
         # print('num of params ', np.sum([np.prod(v.shape) for v in self.model.trainable_variables]))
 
         self._dropout_mask = None
@@ -131,13 +132,15 @@ class Client:
         lr = optimizer_config['learning_rate'] if 'learning_rate' in optimizer_config else None
         step_decay = optimizer_config['step_decay'] if 'step_decay' in optimizer_config else None
 
-        _, adv_success = self.eval_aux_test(tf.keras.losses.SparseCategoricalCrossentropy(from_logits=False))
-        print(f"Adv success: {adv_success}")
-        if 'reduce_lr' in optimizer_config and optimizer_config['reduce_lr']:
-            if adv_success > 0.6:
-                lr = lr / 100
-            elif adv_success > 0.2:
-                lr = lr / 50
+        if self.attack_type != Attack.UNTARGETED:
+            # for untargeted attacks we dont have an eval set to measure success on
+            _, adv_success = self.eval_aux_test(tf.keras.losses.SparseCategoricalCrossentropy(from_logits=False))
+            print(f"Adv success: {adv_success}")
+            if 'reduce_lr' in optimizer_config and optimizer_config['reduce_lr']:
+                if adv_success > 0.6:
+                    lr = lr / 100
+                elif adv_success > 0.2:
+                    lr = lr / 50
 
         if opt == "Adam":
             if lr is not None:
@@ -174,6 +177,8 @@ class Client:
             return cls(old_weights=self.weights, benign_updates=self.benign_updates_this_round, **args)
         elif evasion_name == 'NormBoundProbabilisticCheckingEvasion':
             return cls(old_weights=self.weights, benign_updates=self.benign_updates_this_round, **args)
+        elif evasion_name == 'NeurotoxinEvasion':
+            return cls(old_weights=self.weights, last_round_weights=self.last_global_weights_server, benign_updates=self.benign_updates_this_round, **args)
         elif evasion_name == 'TrimmedMeanEvasion':
             assert self.benign_updates_this_round is not None, "Only full knowledge attack is supported at this moment"
             return cls(benign_updates_this_round=self.benign_updates_this_round, **args)

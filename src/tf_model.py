@@ -6,6 +6,7 @@ from src.model.modelc import build_modelc
 from src.model.lenet import build_lenet5
 from src.model.resnet import resnet_v2, resnet_v1
 from src.model.stacked_lstm import build_stacked_lstm
+from src.model.test_model import build_test_model
 from src.subspace.builder.model_builders import build_model_mnist_fc, \
     build_cnn_model_mnist_bhagoji, build_cnn_model_mnist_dev_conv, build_cnn_model_mnistcnn_conv, build_LeNet_cifar, \
     build_cnn_model_cifar_allcnn, build_model_cifar_LeNet_fastfood
@@ -115,6 +116,9 @@ class Model:
             model = build_stacked_lstm()
             model.summary()
             return model
+        elif model_name == 'test_model':
+            model = build_test_model()
+            model.summary()
         else:
             raise Exception('model `%s` not supported' % model_name)
 

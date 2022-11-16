@@ -33,13 +33,13 @@ class FedAvg(Aggregator):
 
                 if np.isnan(new_weights[layer]).any(): # TODO: Remove
                     print(f"Layer {layer} is NaN!")
-                    import sys
-                    np.set_printoptions(threshold=sys.maxsize)
-                    print(new_weights[layer])
-                    print("XX")
-                    print(client_weight_list[client][layer])
-                    print("XX")
-                    print(current_weights[layer])
+                    # import sys
+                    # np.set_printoptions(threshold=sys.maxsize)
+                    # print(new_weights[layer])
+                    # print("XX")
+                    # print(client_weight_list[client][layer])
+                    # print("XX")
+                    # print(current_weights[layer])
 
         return new_weights
 

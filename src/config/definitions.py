@@ -2,7 +2,7 @@
 from dataclasses import dataclass, MISSING, field
 from typing import Optional, Dict, Any, List
 
-from mashumaro import DataClassYAMLMixin
+from mashumaro.mixins.yaml import DataClassYAMLMixin
 
 """
 This class defines the configuration schema of the framework.
@@ -99,6 +99,9 @@ class Environment(DataClassYAMLMixin):
     use_config_dir: bool = False # whether to use the config parent dir as the target experiment dir
     """Whether to create a separate experiments output directory. 
     If `False` (default), the directory of the config YAML file is used as output directory."""
+
+    limit_tf_gpu_mem_mb: Optional[int] = None
+    """Provide memory limit (MB) for tensorflow to allocate on the GPU, to leave space for other operations."""
 
 @dataclass
 class Dataset(DataClassYAMLMixin):

@@ -11,6 +11,9 @@ from typing import List, Any
 
 import numpy as np
 import tensorflow as tf
+
+from src.torch_compat.data_holder import DataHolder
+
 tf.get_logger().setLevel('DEBUG')
 
 
@@ -87,6 +90,7 @@ class FederatedAveraging:
             self.malicious_clients[malicious_indices] = True
 
         self.global_dataset = self.build_dataset()
+        DataHolder.global_dataset = self.global_dataset
         # self.malicious_clients[np.random.choice(self.num_clients, self.num_malicious_clients, replace=False)] = True
         self.client_objs = []
         self.client_model = None
@@ -95,6 +99,7 @@ class FederatedAveraging:
         self.writer = None
         self.keep_history = config.environment.save_history
         self.parameters_history = [] if self.keep_history else None
+        self.previous_round_weights = None # Holder
 
         self.test_accuracy = tf.keras.metrics.Mean(name='test_accuracy')
         self.test_loss = tf.keras.metrics.Mean(name='test_loss')
@@ -317,6 +322,11 @@ class FederatedAveraging:
         #     metrics=['accuracy']
         # )
 
+        # from src.torch_compat.anticipate import convert_model, evaluate_model
+        # torch_model = convert_model(self.model)
+        # evaluate_model(torch_model, self.global_dataset,
+        #                self.config.client.benign_training.batch_size, self.config.server.num_test_batches)
+
         logging.info("Starting training...")
         test_accuracy, adv_success, test_loss = self.evaluate()
         print('round=', 0, '\ttest_accuracy=', test_accuracy,
@@ -360,6 +370,7 @@ class FederatedAveraging:
             #################
             for i in (c for c in selected_clients if not self.client_objs[c].malicious): # Benign
                 # logging.debug(f"Client {i}: Train")
+                self.client_objs[i].last_global_weights_server = self.previous_round_weights
                 self.client_objs[i].set_weights(weights_list[i])
                 # logging.debug(f"Client {i}: Set weights")
                 self.client_objs[i].set_model(self.model)
@@ -377,6 +388,7 @@ class FederatedAveraging:
                 if self.config.client.malicious.multi_attacker_scale_divide and single_malicious_update is not None:
                     self.client_objs[i].set_weights(single_malicious_update)
                 else:
+                    self.client_objs[i].last_global_weights_server = self.previous_round_weights
                     self.client_objs[i].set_weights(weights_list[i])
                     self.client_objs[i].set_model(self.model)
                     self.client_objs[i].set_benign_updates_this_round(intermediate_benign_client_weights)
@@ -432,6 +444,7 @@ class FederatedAveraging:
                         print(self.global_weights[i])
                         # print(temp_weights[i])
                         print(layer)
+                        exit(1)
 
                     sum = layer + noise
                     if np.isnan(sum).any():
@@ -446,6 +459,7 @@ class FederatedAveraging:
                 self.parameters_history.append(deepcopy(weights))
 
             if round % self.print_every == 0:
+                self.previous_round_weights = self.model.get_weights()
                 self.model.set_weights(weights)
 
                 if Model.model_supports_weight_analysis(self.model_name):

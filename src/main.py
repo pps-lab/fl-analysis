@@ -19,7 +19,8 @@ def load_model():
             config.client.model_name, config.server.intrinsic_dimension,
             config.client.model_weight_regularization, config.client.disable_bn)
 
-    save_model(model)
+    # save_model(model)
+
     return model
 
 def save_model(model):
@@ -27,6 +28,16 @@ def save_model(model):
     np.savetxt("resnet18_intrinsic_40k.txt", weights)
 
 def main():
+    import torch
+    if torch.cuda.is_available():
+        torch.cuda.current_device()
+        limit_gpu_mem()
+
+    # from src.torch_compat.anticipate_lenet import LeNet
+    # device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    # m1 = LeNet(10)
+    # m2 = m1.to(device)  # try
+
     models = [load_model()]
 
     if config.client.malicious is not None:
@@ -91,6 +102,23 @@ def main():
     #         server_model = FederatedAveraging(config, models, f"attack-{i}")
     #         server_model.init()
     #         server_model.fit()
+
+def limit_gpu_mem():
+    limit_mb = config.environment.limit_tf_gpu_mem_mb
+    if limit_mb is None:
+        return
+    gpus = tf.config.experimental.list_physical_devices('GPU')
+    if gpus:
+        # Restrict TensorFlow to only allocate 1GB of memory on the first GPU
+        try:
+            tf.config.experimental.set_virtual_device_configuration(
+                gpus[0],
+                [tf.config.experimental.VirtualDeviceConfiguration(memory_limit=limit_mb)])  # Notice here
+            logical_gpus = tf.config.experimental.list_logical_devices('GPU')
+            print(len(gpus), "Physical GPUs,", len(logical_gpus), "Logical GPUs")
+        except RuntimeError as e:
+            # Virtual devices must be set before GPUs have been initialized
+            print(e)
 
 
 if __name__ == '__main__':

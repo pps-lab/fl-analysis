@@ -12,7 +12,8 @@ class AttackDatasetConfig(object):
                  edge_case_type=None,
                  edge_case_p=1.0,
                  pixel_pattern_type=None,
-                 max_test_batches=None):
+                 max_test_batches=None,
+                 trigger_position=0):
         self.type = type
         self.train = train
         self.test = test
@@ -27,3 +28,4 @@ class AttackDatasetConfig(object):
         self.edge_case_p = edge_case_p
         self.pixel_pattern_type = pixel_pattern_type
         self.max_test_batches = max_test_batches
+        self.trigger_position = trigger_position
