@@ -41,7 +41,7 @@ client:
                 attacker_full_dataset: false
                 model_type: "test_model"
                 anticipate_steps: 3
-            name: AnticipateAttack
+            name: AnticipateTfAttack
         multi_attacker_scale_divide: true
     model_name: test_model
 dataset:

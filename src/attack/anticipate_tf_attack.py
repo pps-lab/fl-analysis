@@ -8,7 +8,7 @@ from copy import copy
 logger = logging.getLogger(__name__)
 
 # Move this into generate later
-from src.torch_compat.anticipate import train_anticipate
+# from src.torch_compat.anticipate import train_anticipate
 
 class AnticipateTfAttack(LossBasedAttack):
 

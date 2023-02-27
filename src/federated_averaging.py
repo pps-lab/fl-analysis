@@ -12,7 +12,7 @@ from typing import List, Any
 import numpy as np
 import tensorflow as tf
 
-from src.torch_compat.data_holder import DataHolder
+# from src.torch_compat.data_holder import DataHolder
 
 tf.get_logger().setLevel('DEBUG')
 
@@ -90,7 +90,6 @@ class FederatedAveraging:
             self.malicious_clients[malicious_indices] = True
 
         self.global_dataset = self.build_dataset()
-        DataHolder.global_dataset = self.global_dataset
         # self.malicious_clients[np.random.choice(self.num_clients, self.num_malicious_clients, replace=False)] = True
         self.client_objs = []
         self.client_model = None
