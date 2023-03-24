@@ -1,6 +1,5 @@
 
 import tensorflow as tf
-import matplotlib.pyplot as plt
 import numpy as np
 from tensorflow.keras.preprocessing.image import apply_affine_transform
 
@@ -107,6 +106,8 @@ def pixel_pattern_if_needed(needed):
 
 
 def debug(image, label):
+    import matplotlib.pyplot as plt
+
     for i in range(image.shape[0]):
         plt.figure()
         plt.imshow(image[i] + 0.5)
